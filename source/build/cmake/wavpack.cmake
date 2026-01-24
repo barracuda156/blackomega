@@ -1,10 +1,11 @@
 # WavPack configuration
 
 if (${TIGER_SYSTEM_DEPS})
-    set(WAVPACK_HOME "${BLACKOMEGA_PREFIX}/lib")
+    pkg_check_modules(WAVPACK REQUIRED wavpack)
 
-    add_library(wavpack SHARED IMPORTED)
-    set_property(TARGET wavpack PROPERTY IMPORTED_LOCATION "${WAVPACK_HOME}/libwavpack.${LIBEXT}" )
+#    set(WAVPACK_HOME "${BLACKOMEGA_PREFIX}/lib")
+#    add_library(wavpack SHARED IMPORTED)
+#    set_property(TARGET wavpack PROPERTY IMPORTED_LOCATION "${WAVPACK_HOME}/libwavpack.${LIBEXT}" )
 
 else (${TIGER_SYSTEM_DEPS})
 
