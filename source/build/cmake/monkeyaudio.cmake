@@ -1,7 +1,6 @@
 # Monkey Audio configuration
 
-set(MONKEYAUDIO_VERSION "4.12b")
-set(MONKEYAUDIO_HOME "${TIGER_UTILS}/monkeyaudio/monkeyaudio-${MONKEYAUDIO_VERSION}-${BUILD_SUFFIX}")
+set(MONKEYAUDIO_HOME "${BLACKOMEGA_PREFIX}")
 
 include_directories(AFTER "${MONKEYAUDIO_HOME}/include" )
 
@@ -9,7 +8,7 @@ if (OMEGA_WIN32)
     set(MONKEYAUDIO_LIBNAME "monkey")
     add_definitions(-DPLATFORM_WINDOWS)
 else (OMEGA_WIN32)
-    set(MONKEYAUDIO_LIBNAME "libMACLib")
+    set(MONKEYAUDIO_LIBNAME "libMAC")
     add_definitions(-DPLATFORM_APPLE)
 endif (OMEGA_WIN32)
 
