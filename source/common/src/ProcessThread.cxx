@@ -32,7 +32,7 @@ ProcessThread::~ProcessThread()
 
 void ProcessThread::run()
 {
-    m_timer = new QTimer(this);
+    m_timer = new QTimer();  // No parent - created in worker thread
     QObject::connect(m_timer,SIGNAL(timeout()),this,SLOT(onTimer()));
     m_timer->setInterval(m_period);
     m_timer->setSingleShot(false);
