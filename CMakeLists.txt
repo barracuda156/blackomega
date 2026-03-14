@@ -36,6 +36,7 @@ include(Qt6)
 include(libxml2)
 include(wavpack)
 include(gmock)
+include(lastfm)
 
 if (OMEGA_WIN32)
 	include(ThirdPartyWindows)

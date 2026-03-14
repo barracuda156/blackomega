@@ -743,6 +743,16 @@ void Player::onAudioStart(const QString& name)
         m_playList->setCurrentQueuePlayItem(0);
         doPaintUpdate();
         PlayerController::instance()->setPlayText("Pause");
+
+        // Last.fm scrobbling: Track started
+        if(pItem!=0)
+        {
+            LastFMScrobbler *scrobbler = PlayerController::instance()->lastFMScrobbler();
+            if(scrobbler)
+            {
+                scrobbler->onTrackStarted(pItem->info());
+            }
+        }
     }
 }
 
@@ -846,6 +856,13 @@ void Player::onAudioPlay()
     m_state = e_Play;
     doPaintUpdate();
     PlayerController::instance()->setPlayText("Pause");
+
+    // Last.fm scrobbling: Track resumed
+    LastFMScrobbler *scrobbler = PlayerController::instance()->lastFMScrobbler();
+    if(scrobbler)
+    {
+        scrobbler->onTrackResumed();
+    }
 }
 
 //-------------------------------------------------------------------------------------------
@@ -858,6 +875,13 @@ void Player::onAudioStop()
 
     if(!m_chTestFlag)
     {
+        // Last.fm scrobbling: Track stopped
+        LastFMScrobbler *scrobbler = PlayerController::instance()->lastFMScrobbler();
+        if(scrobbler)
+        {
+            scrobbler->onTrackStopped();
+        }
+
         if(PlayerController::instance()->audio().data()!=0)
         {
             QPLItemBase *item = (m_playControls->isShuffle()) ? m_playList->nextShufflePlayItem() : m_playList->nextPlayItem();
@@ -956,6 +980,13 @@ void Player::onAudioPause()
     doPaintUpdate();
     setWindowTitle("Black Omega");
     PlayerController::instance()->setPlayText("Play");
+
+    // Last.fm scrobbling: Track paused
+    LastFMScrobbler *scrobbler = PlayerController::instance()->lastFMScrobbler();
+    if(scrobbler)
+    {
+        scrobbler->onTrackPaused();
+    }
 }
 
 //-------------------------------------------------------------------------------------------
@@ -1057,6 +1088,17 @@ void Player::onAudioTime(quint64 t)
         wTitle = m_playList->getTrackLength(dT);
     }
     setWindowTitle(wTitle);
+
+    // Last.fm scrobbling: Check if track should be scrobbled
+    if(pItem!=0 && !m_chTestFlag)
+    {
+        LastFMScrobbler *scrobbler = PlayerController::instance()->lastFMScrobbler();
+        if(scrobbler)
+        {
+            quint64 currentTimeSeconds = static_cast<quint64>(m_currentPlayTime.secondsTotal());
+            scrobbler->checkScrobblePoint(currentTimeSeconds, pItem->info());
+        }
+    }
 }
 
 //-------------------------------------------------------------------------------------------

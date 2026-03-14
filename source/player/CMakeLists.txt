@@ -6,11 +6,13 @@ set( PLAYER_UI
     inc/SettingsGeneral.ui
     inc/SettingsITunes.ui
     inc/SettingsKeyboard.ui
+    inc/SettingsLastFM.ui
 )
 
 set( PLAYER_HEADER
     inc/CLIPipe.h
     inc/ITunesConfig.h
+    inc/LastFMScrobbler.h
     inc/Player.h
     inc/PlayerController.h
     inc/ProgressMessageDialog.h
@@ -31,12 +33,14 @@ set( PLAYER_HEADER
     inc/SettingsGeneral.h
     inc/SettingsITunes.h
     inc/SettingsKeyboard.h
+    inc/SettingsLastFM.h
     inc/SpeakerInfo.h
 )
 
 set( PLAYER_SOURCE
     src/CLIPipe.cxx
     src/ITunesConfig.cxx
+    src/LastFMScrobbler.cxx
     src/Main.cxx
     src/Player.cxx
     src/PlayerController.cxx
@@ -58,6 +62,7 @@ set( PLAYER_SOURCE
     src/SettingsGeneral.cxx
     src/SettingsITunes.cxx
     src/SettingsKeyboard.cxx
+    src/SettingsLastFM.cxx
     src/SpeakerInfo.cxx
 )
 
@@ -107,15 +112,15 @@ if(OMEGA_MSVC16)
 endif (OMEGA_MSVC16)
 
 if (OMEGA_WIN32)
-    target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets winmm ws2_32 wavpack)
+    target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets ${QTVER}::Network winmm ws2_32 wavpack ${LASTFM_LIBRARY_NAME})
 elseif (OMEGA_MACOSX)
     if (OMEGA_QT4)
-        target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::QtCore ${QTVER}::QtGui ${QTVER}::QtXml wavpack ${URLTYPE_FRAMEWORK_UNIT} ${COCOA_FRAMEWORK_UNIT} ${APPKIT_FRAMEWORK_UNIT} ${IOKIT_FRAMEWORK_UNIT} ${SPARKLE_FRAMEWORK} )
+        target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::QtCore ${QTVER}::QtGui ${QTVER}::QtXml ${QTVER}::QtNetwork wavpack ${LASTFM_LIBRARY_NAME} ${URLTYPE_FRAMEWORK_UNIT} ${COCOA_FRAMEWORK_UNIT} ${APPKIT_FRAMEWORK_UNIT} ${IOKIT_FRAMEWORK_UNIT} ${SPARKLE_FRAMEWORK} )
     else (OMEGA_QT4)
-        target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets wavpack ${URLTYPE_FRAMEWORK_UNIT} ${COCOA_FRAMEWORK_UNIT} ${APPKIT_FRAMEWORK_UNIT} ${IOKIT_FRAMEWORK_UNIT} ${SPARKLE_FRAMEWORK} )
+        target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets ${QTVER}::Network wavpack ${LASTFM_LIBRARY_NAME} ${URLTYPE_FRAMEWORK_UNIT} ${COCOA_FRAMEWORK_UNIT} ${APPKIT_FRAMEWORK_UNIT} ${IOKIT_FRAMEWORK_UNIT} ${SPARKLE_FRAMEWORK} )
     endif (OMEGA_QT4)
 elseif (OMEGA_LINUX)
-    target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets wavpack ${LIBUPNP_LIBRARIES})
+    target_link_libraries(Omega audioio blackomega blueomega common cyanomega engine greenomega http mime toneomega wavpackomega network_omega redomega remote rtp rtp_silveromega silveromega trackdb trackinfo violetomega whiteomega widget xml2 ${QTVER}::Core ${QTVER}::Gui ${QTVER}::Xml ${QTVER}::Widgets ${QTVER}::Network wavpack ${LASTFM_LIBRARY_NAME} ${LIBUPNP_LIBRARIES})
 endif (OMEGA_WIN32)
 
 if (OMEGA_WIN32)

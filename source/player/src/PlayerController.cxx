@@ -128,6 +128,9 @@ void PlayerController::onStart()
     m_processThread = new common::ProcessThread(pService, 5000);
     m_processThread->start();
 
+    QSharedPointer<LastFMScrobbler> pLastFMScrobbler(new LastFMScrobbler);
+    m_lastFMScrobbler = pLastFMScrobbler;
+
     if(m_audio.data()==0)
     {
         QStringList aList;
@@ -224,6 +227,7 @@ void PlayerController::onStop()
     m_processThread = 0;
 
     m_iTunesConfig.clear();
+    m_lastFMScrobbler.clear();
 
     if(m_audio.data()!=0)
     {

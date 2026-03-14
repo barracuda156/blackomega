@@ -145,6 +145,12 @@
         <file>Resources/setITunesPress@2x.png</file>
         <file>Resources/setITunesSelect.png</file>
         <file>Resources/setITunesSelect@2x.png</file>
+        <file>Resources/setLastFM.png</file>
+        <file>Resources/setLastFM@2x.png</file>
+        <file>Resources/setLastFMPress.png</file>
+        <file>Resources/setLastFMPress@2x.png</file>
+        <file>Resources/setLastFMSelect.png</file>
+        <file>Resources/setLastFMSelect@2x.png</file>
     </qresource>
     <qresource prefix="/speakers">
         <file>Resources/speakers/centre.png</file>

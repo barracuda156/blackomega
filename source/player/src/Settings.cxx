@@ -49,10 +49,15 @@ Settings::Settings(QSharedPointer<audioio::AOBase> pAudio,Player *player) : QMai
     QObject::connect(m_actionITunes,SIGNAL(triggered()),m_centralWidget,SLOT(onITunesPage()));
     QObject::connect(m_actionITunes,SIGNAL(triggered()),this,SLOT(onITunesPage()));
 
+    m_actionLastFM = toolBar->addAction(QIcon(":/player/Resources/setBlank.png"),"Last.fm");
+    QObject::connect(m_actionLastFM,SIGNAL(triggered()),m_centralWidget,SLOT(onLastFMPage()));
+    QObject::connect(m_actionLastFM,SIGNAL(triggered()),this,SLOT(onLastFMPage()));
+
     setActionStyleSheet(m_actionGeneral,"General",true);
     setActionStyleSheet(m_actionAudio,"Audio",false);
     setActionStyleSheet(m_actionControl,"Control",false);
     setActionStyleSheet(m_actionITunes,"ITunes",false);
+    setActionStyleSheet(m_actionLastFM,"LastFM",false);
 #endif
 
     setCentralWidget(m_centralWidget);
@@ -148,6 +153,7 @@ void Settings::onAudioPage()
     setActionStyleSheet(m_actionAudio,"Audio",true);
     setActionStyleSheet(m_actionControl,"Control",false);
     setActionStyleSheet(m_actionITunes,"ITunes",false);
+    setActionStyleSheet(m_actionLastFM,"LastFM",false);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -158,6 +164,7 @@ void Settings::onKeyboardPage()
     setActionStyleSheet(m_actionAudio,"Audio",false);
     setActionStyleSheet(m_actionControl,"Control",true);
     setActionStyleSheet(m_actionITunes,"ITunes",false);
+    setActionStyleSheet(m_actionLastFM,"LastFM",false);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -168,6 +175,7 @@ void Settings::onGeneralPage()
     setActionStyleSheet(m_actionAudio,"Audio",false);
     setActionStyleSheet(m_actionControl,"Control",false);
     setActionStyleSheet(m_actionITunes,"ITunes",false);
+    setActionStyleSheet(m_actionLastFM,"LastFM",false);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -178,6 +186,18 @@ void Settings::onITunesPage()
     setActionStyleSheet(m_actionAudio,"Audio",false);
     setActionStyleSheet(m_actionControl,"Control",false);
     setActionStyleSheet(m_actionITunes,"ITunes",true);
+    setActionStyleSheet(m_actionLastFM,"LastFM",false);
+}
+
+//-------------------------------------------------------------------------------------------
+
+void Settings::onLastFMPage()
+{
+    setActionStyleSheet(m_actionGeneral,"General",false);
+    setActionStyleSheet(m_actionAudio,"Audio",false);
+    setActionStyleSheet(m_actionControl,"Control",false);
+    setActionStyleSheet(m_actionITunes,"ITunes",false);
+    setActionStyleSheet(m_actionLastFM,"LastFM",true);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -212,6 +232,8 @@ SettingsCentralWidget::SettingsCentralWidget(QSharedPointer<audioio::AOBase> pAu
     m_widgetITunes = new SettingsITunesMac(this);
 #endif
 
+    m_widgetLastFM = new SettingsLastFM(PlayerController::instance()->lastFMScrobbler(), this);
+
 #if defined(OMEGA_WIN32) || defined(OMEGA_LINUX)
 
     m_widgetFile = new SettingsFile(this);
@@ -220,6 +242,7 @@ SettingsCentralWidget::SettingsCentralWidget(QSharedPointer<audioio::AOBase> pAu
     m_settingTab->addTab(m_widgetAudio,"Audio");
     m_settingTab->addTab(m_widgetKeyboard,"Controls");
     m_settingTab->addTab(m_widgetITunes,"iTunes");
+    m_settingTab->addTab(m_widgetLastFM,"Last.fm");
     m_settingTab->addTab(m_widgetFile,"File Associations");
     QObject::connect(m_settingTab,SIGNAL(currentChanged(int)),this,SLOT(onTabChanged(int)));
     layout->addWidget(m_settingTab);
@@ -231,6 +254,7 @@ SettingsCentralWidget::SettingsCentralWidget(QSharedPointer<audioio::AOBase> pAu
     m_settingStack->addWidget(m_widgetAudio);
     m_settingStack->addWidget(m_widgetKeyboard);
     m_settingStack->addWidget(m_widgetITunes);
+    m_settingStack->addWidget(m_widgetLastFM);
     QObject::connect(m_settingStack,SIGNAL(currentChanged(int)),this,SLOT(onTabChanged(int)));
     layout->addWidget(m_settingStack);
 
@@ -258,8 +282,12 @@ void SettingsCentralWidget::onTabChanged(int index)
     {
         m_widgetITunes->onSelected(index);
     }
-#if defined(OMEGA_WIN32)
     else if(index==4)
+    {
+        m_widgetLastFM->onSelected(index);
+    }
+#if defined(OMEGA_WIN32) || defined(OMEGA_LINUX)
+    else if(index==5)
     {
         m_widgetFile->onSelected(index);
     }
@@ -309,6 +337,13 @@ void SettingsCentralWidget::onGeneralPage()
 void SettingsCentralWidget::onITunesPage()
 {
     m_settingStack->setCurrentIndex(3);
+}
+
+//-------------------------------------------------------------------------------------------
+
+void SettingsCentralWidget::onLastFMPage()
+{
+    m_settingStack->setCurrentIndex(4);
 }
 
 //-------------------------------------------------------------------------------------------

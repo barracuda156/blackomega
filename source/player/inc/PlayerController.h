@@ -4,6 +4,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "player/inc/Player.h"
+#include "player/inc/LastFMScrobbler.h"
 
 #include <QSplashScreen>
 
@@ -35,6 +36,7 @@ class PlayerController : public QObject
         QTimer *cliTimer();
 
         ITunesConfig *iTunesConfig();
+        LastFMScrobbler *lastFMScrobbler();
 
         void setPlayText(const QString& text);
         void createContextMenu(QMenu& m,bool pasteFlag);
@@ -102,6 +104,7 @@ class PlayerController : public QObject
 
         QMenu *m_iTunesCollectionMenu;
         QSharedPointer<ITunesConfig> m_iTunesConfig;
+        QSharedPointer<LastFMScrobbler> m_lastFMScrobbler;
 
         QTimer *m_cliTimer;
 
@@ -168,6 +171,13 @@ class PlayerController : public QObject
 inline ITunesConfig *PlayerController::iTunesConfig()
 {
     return m_iTunesConfig.data();
+}
+
+//-------------------------------------------------------------------------------------------
+
+inline LastFMScrobbler *PlayerController::lastFMScrobbler()
+{
+    return m_lastFMScrobbler.data();
 }
 
 //-------------------------------------------------------------------------------------------

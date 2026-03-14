@@ -8,6 +8,7 @@
 #include "player/inc/SettingsKeyboard.h"
 #include "player/inc/SettingsGeneral.h"
 #include "player/inc/SettingsITunes.h"
+#include "player/inc/SettingsLastFM.h"
 
 #include <QMainWindow>
 #include <QToolBar>
@@ -51,6 +52,7 @@ class SettingsCentralWidget : public QWidget
 
         SettingsGeneral *m_widgetGeneral;
         SettingsITunes *m_widgetITunes;
+        SettingsLastFM *m_widgetLastFM;
 
         virtual void showEvent(QShowEvent *evt);
         virtual void hideEvent(QHideEvent *evt);
@@ -61,6 +63,7 @@ class SettingsCentralWidget : public QWidget
         void onKeyboardPage();
         void onGeneralPage();
         void onITunesPage();
+        void onLastFMPage();
 #endif
 
     protected Q_SLOTS:
@@ -87,6 +90,7 @@ class Settings : public QMainWindow
         QAction *m_actionControl;
         QAction *m_actionGeneral;
         QAction *m_actionITunes;
+        QAction *m_actionLastFM;
 #endif
 
         SettingsCentralWidget *m_centralWidget;
@@ -104,6 +108,7 @@ class Settings : public QMainWindow
         void onKeyboardPage();
         void onGeneralPage();
         void onITunesPage();
+        void onLastFMPage();
 #endif
 };
 
