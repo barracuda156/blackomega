@@ -295,6 +295,8 @@ QImage *QPLItemBase::getImage(tint w,tint h,bool greyFlag)
                     res = oImg->load(&qBuffer,format.toLatin1().constData());
                     if(!res)
                     {
+                        // Fallback to auto-detect if explicit format failed
+                        qBuffer.seek(0);
                         res = oImg->load(&qBuffer,0);
                     }
                 }

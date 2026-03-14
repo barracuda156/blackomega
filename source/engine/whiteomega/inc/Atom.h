@@ -284,6 +284,7 @@ class WHITEOMEGA_EXPORT Atom
         QList<Track *> m_tracks;
         QMap<QString,QString> m_metadata;
         common::Array<tubyte,tubyte> *m_coverArtArray;
+        tuint32 m_coverArtType;
 
         virtual tint getSampleDuration(tint trackIdx,tint sample);
         virtual bool setSamplePosition(File *in,tint trackIdx,tint sample);

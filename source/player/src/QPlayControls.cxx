@@ -1747,6 +1747,12 @@ void QPlayControls::getTrackImage()
             if(!format.isEmpty())
             {
                 res = m_trackImage->load(&qBuffer,format.toLatin1().constData());
+                if(!res)
+                {
+                    // Fallback to auto-detect if explicit format failed
+                    qBuffer.seek(0);
+                    res = m_trackImage->load(&qBuffer,0);
+                }
             }
             else
             {

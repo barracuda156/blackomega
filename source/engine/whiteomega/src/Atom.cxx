@@ -228,7 +228,8 @@ Atom::Atom() : m_moovRead(false),
     m_duration(0),
     m_tracks(),
     m_metadata(),
-    m_coverArtArray(0)
+    m_coverArtArray(0),
+    m_coverArtType(0)
 {}
 
 //-------------------------------------------------------------------------------------------
@@ -267,6 +268,7 @@ void Atom::clear()
         delete m_coverArtArray;
         m_coverArtArray = 0;
     }
+    m_coverArtType = 0;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -1086,8 +1088,8 @@ void Atom::parseMetaTag(AtomFile *in,Type parentType,tint size)
             {
                 // version
                 readByte(in);
-                // flags
-                readInt24(in);
+                // flags (contains image type for cover art)
+                tuint32 dataType = readInt24(in);
                 // reserved
                 readInt32(in);
 
@@ -1100,6 +1102,7 @@ void Atom::parseMetaTag(AtomFile *in,Type parentType,tint size)
                         m_coverArtArray = new common::Array<tubyte,tubyte>();
                         m_coverArtArray->SetSize(cSize);
                         in->read(reinterpret_cast<tchar *>(m_coverArtArray->GetData()),cSize);
+                        m_coverArtType = dataType;  // Save image type
                     }
                 }
                 else

@@ -83,7 +83,26 @@ bool AtomInfo::read(common::BIOStream *input)
 
             if(atomic->m_coverArtArray!=0)
             {
-                m_coverFormat = e_imageJPEG;
+                // Map MP4 data type to image format
+                // 0x0d = JPEG, 0x0e = PNG, 0x0c = GIF, 0x0b = BMP
+                switch(atomic->m_coverArtType)
+                {
+                    case 0x0d:
+                        m_coverFormat = e_imageJPEG;
+                        break;
+                    case 0x0e:
+                        m_coverFormat = e_imagePNG;
+                        break;
+                    case 0x0c:
+                        m_coverFormat = e_imageGIF;
+                        break;
+                    case 0x0b:
+                        m_coverFormat = e_imageBMP;
+                        break;
+                    default:
+                        m_coverFormat = e_imageUnknown;  // Let Qt auto-detect
+                        break;
+                }
                 m_coverArray = atomic->m_coverArtArray;
                 atomic->m_coverArtArray = 0;
             }
